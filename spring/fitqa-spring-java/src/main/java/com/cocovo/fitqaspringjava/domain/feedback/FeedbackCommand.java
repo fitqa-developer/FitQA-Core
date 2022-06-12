@@ -6,14 +6,16 @@ import com.cocovo.fitqaspringjava.domain.feedback.entity.FeedbackAnswer;
 import com.cocovo.fitqaspringjava.domain.feedback.entity.FeedbackComment;
 import com.cocovo.fitqaspringjava.domain.trainer.entity.Trainer;
 import com.cocovo.fitqaspringjava.domain.user.User;
+import com.cocovo.fitqaspringjava.interfaces.feedback.FeedbackDto;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 public class FeedbackCommand {
 
   @Getter
-  @Builder
   @ToString
   public static class RegisterFeedback {
 
@@ -24,6 +26,18 @@ public class FeedbackCommand {
     private String title;
     private String content;
     private boolean locked;
+    private List<MultipartFile> videos;
+
+    public RegisterFeedback(FeedbackDto.RegisterReq registerReq, List<MultipartFile> videos) {
+      this.ownerToken = registerReq.getOwnerToken();
+      this.trainerToken = registerReq.getTrainerToken();
+      this.interestArea = registerReq.getInterestArea();
+      this.price = registerReq.getPrice();
+      this.title = registerReq.getTitle();
+      this.content = registerReq.getContent();
+      this.locked = registerReq.isLocked();
+      this.videos = videos;
+    }
 
     public Feedback toEntity(User owner, Trainer trainer) {
       return Feedback.builder()

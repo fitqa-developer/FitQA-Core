@@ -20,8 +20,6 @@ public interface FeedbackDtoMapper {
 
   FeedbackDto.FeedbackAnswerInfo of(FeedbackInfo.FeedbackAnswerInfo feedbackAnswerInfo);
 
-  FeedbackCommand.RegisterFeedback of(FeedbackDto.RegisterReq req);
-
   FeedbackCommand.RegisterFeedbackAnswer of(FeedbackDto.RegisterAnswerReq req);
 
   FeedbackCommand.AddComment of(FeedbackDto.AddCommentReq req);

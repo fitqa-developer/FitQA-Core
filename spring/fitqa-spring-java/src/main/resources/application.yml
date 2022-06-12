@@ -1,4 +1,8 @@
+
 spring:
+  config:
+    on-not-found: ignore
+    import: classpath:aws.yml
   datasource:
     url: jdbc:postgresql://fitqa-db-dev.czkattcbnkfu.ap-northeast-2.rds.amazonaws.com:5432/fitqa-db-dev
     username: fitqadmin
@@ -8,16 +12,9 @@ spring:
       ddl-auto: none
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   profiles:
-    include: oauth
+    include:
+      - oauth
+      - aws
 
 server:
   port: 8080
-
-cloud:
-  aws:
-    region:
-      static: ap-northeast-2
-      auto: false
-    credentials:
-      access-key: AKIAVCWWD3CZLUPTOPUP
-      secret-key: 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

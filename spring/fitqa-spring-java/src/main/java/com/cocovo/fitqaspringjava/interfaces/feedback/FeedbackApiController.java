@@ -2,6 +2,7 @@ package com.cocovo.fitqaspringjava.interfaces.feedback;
 
 import com.cocovo.fitqaspringjava.application.feedback.FeedbackFacade;
 import com.cocovo.fitqaspringjava.common.response.CommonResponse;
+import com.cocovo.fitqaspringjava.domain.feedback.FeedbackCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -39,9 +41,12 @@ public class FeedbackApiController {
 
   @PostMapping("/register")
   public CommonResponse<FeedbackDto.Main> registerFeedback(
-      @RequestBody @Valid FeedbackDto.RegisterReq request) {
-    var registerCommand = feedbackDtoMapper.of(request);
+      @RequestPart(value = "context", required = true) @Valid FeedbackDto.RegisterReq request,
+      @RequestPart(value = "videos", required = true) List<MultipartFile> videos) {
+    var registerCommand = new FeedbackCommand.RegisterFeedback(request, videos);
+
     var feedbackInfo = feedbackFacade.registerFeedback(registerCommand);
+
     var response = feedbackDtoMapper.of(feedbackInfo);
     return CommonResponse.success(response);
   }

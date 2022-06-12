@@ -63,6 +63,7 @@ public class Feedback extends BaseEntity {
   @Getter
   @RequiredArgsConstructor
   public enum Status {
+    WAITING_FOR_PAYMENT("결제 대기"),
     PREPARE("답변대기"),
     COMPLETE("답변완료");
 
@@ -91,10 +92,12 @@ public class Feedback extends BaseEntity {
     this.content = content;
     this.locked = locked;
     this.feedbackVideo = Lists.newArrayList();
-    this.status = Status.PREPARE;
+    this.status = Status.WAITING_FOR_PAYMENT;
   }
 
   public void changeComplete() {
     this.status = Status.COMPLETE;
   }
+
+  public void completePayment() { this.status = Status.PREPARE; }
 }
